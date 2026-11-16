@@ -32,7 +32,7 @@ void salvarArquivo(No *raiz, FILE *arq);
 void liberarMemoria(No *raiz);
 
 int main(void) {
-    No *raiz = NULL; // A árvore começa vazia
+    No *raiz = NULL;
     int opcao;
 
     // Ao iniciar, lemos o arquivo de texto e jogamos os dados na árvore
@@ -44,6 +44,7 @@ int main(void) {
         printf("2. Buscar operador por matricula\n");
         printf("3. Listar todos (Ordem crescente)\n");
         printf("4. Exibir estrutura da arvore\n");
+        printf("5. Imprimir OLA");
         printf("0. Sair (Salvar e liberar memoria)\n");
         printf("Escolha uma opcao: ");
         
@@ -106,18 +107,18 @@ int main(void) {
             } else {
                 exibirArvore(raiz, 0);
             }
-
-        } else if (opcao == 0) {
+        } 
+		else if (opcao == 5) {
+            imprimirOla();
+		}else if (opcao == 0) {
             printf("\nSalvando dados no arquivo e limpando memoria...\n");
             
-            // Abre o arquivo em modo "w" para reescrever com os dados atuais
             FILE *arq = fopen(ARQUIVO, "w");
             if (arq != NULL) {
                 salvarArquivo(raiz, arq);
                 fclose(arq);
             }
             
-            // Libera toda a memória alocada na RAM antes de fechar
             liberarMemoria(raiz);
             raiz = NULL;
             printf("Programa encerrado com seguranca!\n");
@@ -128,16 +129,15 @@ int main(void) {
     return 0;
 }
 
-// ==========================================================
-// FUNÇÕES DA ÁRVORE E DO SISTEMA (Com explicações para a banca)
-// ==========================================================
+
+void imprimirOla(){
+	printf("OLA");
+}
 
 // Cria um nó novo usando malloc (alocação dinâmica na memória RAM)
 No* criarNo(Operador novoOp) {
     // Pedimos espaço ao sistema operacional do tamanho exato de um No
     No *novo = (No *)malloc(sizeof(No));
-    
-    // EXIGÊNCIA DO PROFESSOR: Conferir se o malloc deu certo
     if (novo == NULL) {
         printf("Erro de memoria!\n");
         exit(1);
@@ -153,7 +153,7 @@ No* criarNo(Operador novoOp) {
 // Usamos ponteiro duplo (No **raiz) porque precisamos alterar a raiz original se ela for NULL
 void inserir(No **raiz, Operador novoOp) {
     if (*raiz == NULL) {
-        *raiz = criarNo(novoOp); // Achamos o lugar vazio! Alocamos o nó aqui.
+        *raiz = criarNo(novoOp); // Local vazio - Alocar nó aqui
         return;
     }
     // Se a matrícula for menor que a do nó atual, vai para a esquerda
@@ -166,22 +166,18 @@ void inserir(No **raiz, Operador novoOp) {
     }
 }
 
-// Busca binária na árvore (muito mais rápida que procurar em lista)
 No* buscar(No *raiz, int mat) {
     // Se chegou em NULL (não achou) ou se achou a matrícula, retorna o ponteiro
     if (raiz == NULL || raiz->op.matricula == mat) {
         return raiz;
     }
-    // Se for menor, procura na esquerda
     if (mat < raiz->op.matricula) {
         return buscar(raiz->esquerda, mat);
     }
-    // Se for maior, procura na direita
     return buscar(raiz->direita, mat);
 }
 
 // Percurso EM-ORDEM: Esquerda -> Raiz -> Direita
-// Isso garante que os dados apareçam na tela perfeitamente ordenados por matrícula!
 void listarEmOrdem(No *raiz) {
     if (raiz != NULL) {
         listarEmOrdem(raiz->esquerda); // 1. Vai tudo para a esquerda (menores)
@@ -196,10 +192,9 @@ void listarEmOrdem(No *raiz) {
 
 
 // Percurso PRÉ-ORDEM: Raiz -> Esquerda -> Direita
-// Usamos aqui para mostrar a hierarquia da árvore com recuo (níveis)
 void exibirArvore(No *raiz, int nivel) {
     if (raiz != NULL) {
-        int i; // Declarado fora do 'for' para compilar sem erro no Dev-C++!
+        int i;
         for (i = 0; i < nivel; i++) {
             printf("    "); // Dá um espaço proporcional ao nível para parecer um gráfico
         }
@@ -226,8 +221,7 @@ void exibirArvore(No *raiz, int nivel) {
 }
 
 // Função para gravar os dados no arquivo de texto ao sair
-// Usamos PRÉ-ORDEM para gravar porque, quando o programa ler de novo, 
-// reconstrói a árvore exatamente com a mesma forma e altura!
+// preordenar para gravar porque, quando o programa ler de novo, reconstrói a árvore exatamente com a mesma forma e altura
 void salvarArquivo(No *raiz, FILE *arq) {
     if (raiz != NULL) {
         fprintf(arq, "%d;%s;%s;%d\n", 
@@ -253,8 +247,7 @@ void carregarArquivo(No **raiz) {
 }
 
 // Função para liberar a memória RAM usando Pós-Ordem
-// IMPORTANTE: Só podemos dar free nos filhos antes de dar free no pai, 
-// senão perdemos o endereço de memória deles!
+//Só podemos dar free nos filhos antes de dar free no pai, senão perdemos o endereço de memória deles
 void liberarMemoria(No *raiz) {
     if (raiz != NULL) {
         liberarMemoria(raiz->esquerda);
