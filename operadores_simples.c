@@ -194,14 +194,31 @@ void listarEmOrdem(No *raiz) {
     }
 }
 
+
 // Percurso PRÉ-ORDEM: Raiz -> Esquerda -> Direita
 // Usamos aqui para mostrar a hierarquia da árvore com recuo (níveis)
 void exibirArvore(No *raiz, int nivel) {
     if (raiz != NULL) {
-        for (int i = 0; i < nivel; i++) {
+        int i; // Declarado fora do 'for' para compilar sem erro no Dev-C++!
+        for (i = 0; i < nivel; i++) {
             printf("    "); // Dá um espaço proporcional ao nível para parecer um gráfico
         }
-        printf("[Nivel %d] Matricula: %d (%s)\n", nivel, raiz->op.matricula, raiz->op.nome);
+        
+        // Mostra a chave atual e quem são os filhos da esquerda e da direita
+        printf("[Nivel %d] Matricula: %d (Esq: ", nivel, raiz->op.matricula);
+        if (raiz->esquerda != NULL) {
+            printf("%d", raiz->esquerda->op.matricula);
+        } else {
+            printf("NULL");
+        }
+        
+        printf(" | Dir: ");
+        if (raiz->direita != NULL) {
+            printf("%d", raiz->direita->op.matricula);
+        } else {
+            printf("NULL");
+        }
+        printf(")\n");
         
         exibirArvore(raiz->esquerda, nivel + 1); // Desce pra esquerda somando 1 nível
         exibirArvore(raiz->direita, nivel + 1);  // Desce pra direita somando 1 nível
