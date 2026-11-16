@@ -2,11 +2,14 @@
 250;Ana Beatriz Souza;N1 - Triagem;210
 120;Marcos Vinicius Lima;N1 - Triagem;185
 105;Fernanda Costa;N1 - Atendimento;95
+100;teste;N1 - Atendimento;100
 180;Lucas Gabriel Rocha;N2 - Bancos de Dados;112
 370;Juliana Martins;N3 - Servidores;64
 310;Rafael Oliveira;N2 - Redes;130
+350;Mayan;Suporte;13
 420;Camila Pereira;N1 - Triagem;240
 750;Roberto Almeida;N3 - Seguranca;58
 620;Patricia Gomes;N2 - Sistemas;119
 580;Bruno Henrique Dias;N1 - Atendimento;175
+650;Anchieta;Engenheiro master;99999
 880;Amanda Ribeiro;N3 - Infraestrutura;82
